@@ -22,7 +22,7 @@ Per caricare la versione di sviluppo, apri `chrome://extensions`, abilita la mod
 - Ogni nuovo permesso Chrome deve essere indispensabile, documentato e limitato allo scopo.
 - Mantieni sincronizzate le versioni in `manifest.json` e `package.json`.
 - Aggiungi o aggiorna i test per le modifiche alla logica.
-- Esegui `npm test` e `npm run verify`, poi prova in Chrome i flussi interessati.
+- Esegui `npm test` e `npm run verify`, poi prova in Chrome i flussi interessati seguendo la [checklist manuale](docs/testing.md#checklist-di-test-manuale).
 - Non includere screenshot, URL o log contenenti dati riservati.
 
 Contribuendo, accetti che il tuo lavoro sia distribuito con la licenza MIT del progetto.

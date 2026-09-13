@@ -18,7 +18,7 @@ La preparazione lazy può attivare le normali richieste di rete della pagina ape
 
 ## Permessi
 
-I permessi Chrome e il loro uso sono descritti nella sezione [Permessi del README](README.md#permessi). L'accesso avviene dopo un comando esplicito dell'utente ed è limitato al tab interessato dalla cattura.
+I permessi Chrome e il loro uso sono descritti nella guida [Architettura e permessi](docs/architecture.md#permessi). L'accesso avviene dopo un comando esplicito dell'utente ed è limitato al tab interessato dalla cattura.
 
 ## Modifiche e contatti
 

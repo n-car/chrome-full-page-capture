@@ -20,6 +20,35 @@ function read(relativePath) {
   return readFileSync(join(projectRoot, relativePath), "utf8");
 }
 
+function markdownAnchors(source) {
+  const anchors = new Set();
+  const occurrences = new Map();
+
+  for (const line of source.split(/\r?\n/)) {
+    const headingMatch = line.match(/^#{1,6}\s+(.+?)\s*#*$/);
+    if (!headingMatch) {
+      continue;
+    }
+
+    const base = headingMatch[1]
+      .replace(/<[^>]*>/g, "")
+      .replace(/[`*_~]/g, "")
+      .toLocaleLowerCase("it")
+      .replace(/[^\p{L}\p{N}\s-]/gu, "")
+      .trim()
+      .replace(/\s+/g, "-");
+    if (!base) {
+      continue;
+    }
+
+    const occurrence = occurrences.get(base) || 0;
+    anchors.add(occurrence === 0 ? base : `${base}-${occurrence}`);
+    occurrences.set(base, occurrence + 1);
+  }
+
+  return anchors;
+}
+
 let manifest;
 try {
   manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
@@ -82,6 +111,10 @@ for (const relativePath of [
   "LICENSE",
   "PRIVACY.md",
   "SECURITY.md",
+  "docs/usage.md",
+  "docs/architecture.md",
+  "docs/testing.md",
+  "docs/limitations.md",
   "test-page/index.html"
 ]) {
   check(existsSync(join(projectRoot, relativePath)), `required project file exists: ${relativePath}`);
@@ -105,6 +138,15 @@ for (const relativePath of [
 }
 
 const popupHtml = read("popup.html");
+const readme = read("README.md");
+check(
+  readme.includes(`Versione: **${manifest.version}**`),
+  "README displays the current manifest version"
+);
+check(
+  readme.includes(`full-page-capture-${manifest.version}.zip`),
+  "README names the current release archive"
+);
 check(popupHtml.includes('href="popup.css"'), "popup references popup.css");
 check(popupHtml.includes('src="popup.js"'), "popup references popup.js");
 check(!/<script[^>]+src=["']https?:/i.test(popupHtml), "popup loads no remote scripts");
@@ -179,6 +221,49 @@ for (const size of [16, 32, 48, 128]) {
   const height = data.length >= 24 ? data.readUInt32BE(20) : 0;
   check(pngSignature && width === size && height === size, `${relativePath} is a ${size}x${size} PNG`);
   check(statSync(absolutePath).size > 100, `${relativePath} is not empty`);
+}
+
+const markdownFiles = [
+  "README.md",
+  "CHANGELOG.md",
+  "CONTRIBUTING.md",
+  "PRIVACY.md",
+  "SECURITY.md",
+  "docs/usage.md",
+  "docs/architecture.md",
+  "docs/testing.md",
+  "docs/limitations.md"
+];
+
+for (const relativePath of markdownFiles) {
+  const sourcePath = join(projectRoot, relativePath);
+  const source = read(relativePath);
+  for (const match of source.matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {
+    const rawTarget = match[1].trim();
+    if (!rawTarget || /^[a-z][a-z\d+.-]*:/i.test(rawTarget)) {
+      continue;
+    }
+
+    const hashIndex = rawTarget.indexOf("#");
+    const rawPath = (hashIndex === -1 ? rawTarget : rawTarget.slice(0, hashIndex)).replace(
+      /^<|>$/g,
+      ""
+    );
+    const fragment = hashIndex === -1 ? "" : decodeURIComponent(rawTarget.slice(hashIndex + 1));
+    const targetPath = rawPath
+      ? resolve(dirname(sourcePath), decodeURIComponent(rawPath))
+      : sourcePath;
+    const targetExists = existsSync(targetPath);
+    check(targetExists, `${relativePath} local link exists: ${rawTarget}`);
+
+    if (targetExists && fragment && targetPath.toLowerCase().endsWith(".md")) {
+      const anchors = markdownAnchors(readFileSync(targetPath, "utf8"));
+      check(
+        anchors.has(fragment),
+        `${relativePath} local anchor exists: ${rawTarget}`
+      );
+    }
+  }
 }
 
 if (failures.length > 0) {

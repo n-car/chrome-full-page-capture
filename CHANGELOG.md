@@ -4,6 +4,10 @@ Le modifiche rilevanti del progetto sono documentate in questo file. Il formato 
 
 ## [Unreleased]
 
+### Changed
+
+- Suddivisa la documentazione dettagliata in guide tematiche sotto `docs/`, mantenendo il README come panoramica rapida.
+
 ## [0.1.0] - 2026-09-13
 
 ### Added
