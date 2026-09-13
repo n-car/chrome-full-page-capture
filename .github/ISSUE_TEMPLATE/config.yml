@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Segnalazione privata di sicurezza
+    url: https://github.com/n-car/chrome-full-page-capture/security/advisories/new
+    about: Non pubblicare vulnerabilità o dati sensibili in una issue.

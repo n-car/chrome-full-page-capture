@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Full Page Capture",
+  "short_name": "Page Capture",
+  "version": "0.1.0",
+  "description": "Capture full-page, viewport, and responsive PNG screenshots from the Chrome toolbar.",
+  "minimum_chrome_version": "118",
+  "permissions": [
+    "activeTab",
+    "debugger",
+    "downloads",
+    "offscreen",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Capture this page",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "commands": {
+    "capture-full-page": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "Capture the current page at full height"
+    }
+  }
+}

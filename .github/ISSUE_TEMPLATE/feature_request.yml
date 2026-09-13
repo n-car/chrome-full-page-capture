@@ -1,0 +1,29 @@
+name: Feature request
+description: Proponi un miglioramento circoscritto.
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema da risolvere
+      description: Descrivi il caso d'uso, non soltanto la soluzione desiderata.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Soluzione proposta
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative considerate
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Impatto
+      options:
+        - label: La proposta non richiede nuovi permessi o servizi esterni.
+        - label: Ho descritto sopra gli eventuali nuovi permessi o trasferimenti di dati.

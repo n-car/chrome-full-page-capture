@@ -1,0 +1,83 @@
+name: Bug report
+description: Segnala un comportamento riproducibile dell'estensione.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Grazie per la segnalazione. Non allegare screenshot o URL contenenti dati
+        riservati; per problemi di sicurezza usa la segnalazione privata.
+  - type: input
+    id: version
+    attributes:
+      label: Versione dell'estensione
+      placeholder: 0.1.0 oppure hash del commit
+    validations:
+      required: true
+  - type: input
+    id: chrome
+    attributes:
+      label: Versione di Chrome e sistema operativo
+      placeholder: Chrome 152 su Windows 11
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Modalità di cattura
+      options:
+        - Full Page
+        - Viewport
+        - Desktop 1440
+        - Desktop 1280
+        - Mobile 390
+        - Mobile 430
+        - Custom width
+        - Responsive set
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passaggi per riprodurre il problema
+      description: Usa, se possibile, una pagina pubblica o la pagina di test inclusa.
+      placeholder: |
+        1. Apro...
+        2. Seleziono...
+        3. Osservo...
+    validations:
+      required: true
+  - type: checkboxes
+    id: options
+    attributes:
+      label: Opzioni attive
+      options:
+        - label: Hide scrollbars
+        - label: Disable animations
+  - type: textarea
+    id: expected
+    attributes:
+      label: Risultato atteso
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Risultato effettivo e messaggio di errore
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Contesto aggiuntivo
+      description: Log del service worker o immagini già oscurate, se utili.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Verifiche
+      options:
+        - label: Ho verificato che non esista già una segnalazione equivalente.
+          required: true
+        - label: Ho rimosso credenziali, dati personali e contenuti riservati.
+          required: true
